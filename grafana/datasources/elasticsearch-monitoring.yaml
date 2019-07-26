@@ -1,0 +1,13 @@
+apiVersion: 1
+
+datasources:
+  - name: elasticsearch-monitoring
+    type: elasticsearch
+    access: proxy
+    database: "[.monitoring-es-6-]YYYY.MM.DD"
+    url: http://localhost:9400
+    jsonData:
+      interval: Daily
+      timeField: "timestamp"
+      esVersion: 60
+    editable: false
