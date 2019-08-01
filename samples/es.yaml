@@ -1,0 +1,49 @@
+# This sample sets up an Elasticsearch cluster with 3 nodes.
+apiVersion: elasticsearch.k8s.elastic.co/v1alpha1
+kind: Elasticsearch
+metadata:
+  name: elasticsearch-monitoring
+spec:
+  image: registry.cn-hangzhou.aliyuncs.com/eck/elasticsearch:6.8.1
+  version: 6.8.1
+  nodes:
+  - config:
+      node.master: true
+      node.data: true
+    podTemplate:
+      metadata:
+        labels:
+          foo: bar
+      spec:
+        containers:
+        - name: elasticsearch
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: 1
+    nodeCount: 1
+
+---
+apiVersion: elasticsearch.k8s.elastic.co/v1alpha1
+kind: Elasticsearch
+metadata:
+  name: elasticsearch-foo
+spec:
+  image: registry.cn-hangzhou.aliyuncs.com/eck/elasticsearch:6.8.1
+  version: 6.8.1
+  nodes:
+  - config:
+      node.master: true
+      node.data: true
+    podTemplate:
+      metadata:
+        labels:
+          foo: bar
+      spec:
+        containers:
+        - name: elasticsearch
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: 1
+    nodeCount: 1

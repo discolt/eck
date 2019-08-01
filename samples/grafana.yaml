@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: grafana
+  labels:
+    name: grafana
+spec:
+  initContainers:
+  - name: config 
+    image: busybox
+    env:
+    - name: VERSION
+      value: 0.0.2
+    command: ["/bin/sh", "-c", "wget https://github.com/discolt/eck/archive/${VERSION}.zip && unzip ${VERSION}.zip && mv eck-${VERSION}/grafana/provisioning/* /mnt/grafana"]
+    volumeMounts:
+    - name: mnt-grafana
+      mountPath: /mnt/grafana
+  containers:
+  - name:  grafana-server
+    image: grafana/grafana:6.2.5
+    imagePullPolicy: Always
+    volumeMounts:
+    - name: mnt-grafana
+      mountPath: /etc/grafana/provisioning
+  volumes:
+  - name: mnt-grafana
+    emptyDir: {}      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+  selector:
+    name: grafana
