@@ -11,3 +11,4 @@ datasources:
       timeField: "timestamp"
       esVersion: 60
     editable: false
+    isDefault: true
